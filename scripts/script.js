@@ -1,9 +1,12 @@
-(function(window, document, MazeGenerator, MazePainter) {
+(function(window, document, MazeGenerator, MazePainter, Player) {
   'use strict';
 
   // DOM Elements
   var canvasMaze = document.getElementById('maze');
+  var canvasPlayer = document.getElementById('player');
   var bGenerate = document.getElementById('bGenerate');
+
+  var ctxPlayer = canvasPlayer.getContext('2d');
 
   // Initialization variables
   var cellSize = 40;
@@ -18,10 +21,11 @@
 
   function paint() {
     paintMaze();
+    paintPlayer(ctxPlayer);
   }
 
   function update() {
-  
+    updatePlayer();
   }
 
   function loop() {
@@ -37,10 +41,14 @@
 
   MazePainter.init(canvasMaze, cellSize, cellColor, frontierColor, wallColor, entryColor, exitColor, null, null);
 
+  Player.init(MazeGenerator.entry[1] * cellSize, MazeGenerator.entry[0] * cellSize, 'assets/img/rat-spritesheet.png', 3, 32);
+
   var paintMaze = MazePainter.startPainting.bind(MazePainter);
+  var updatePlayer = Player.update.bind(Player);
+  var paintPlayer = Player.paint.bind(Player);
 
   loop();
   
 
 
-}(window, document, MazeGenerator, MazePainter));
+}(window, document, MazeGenerator, MazePainter, Player));
