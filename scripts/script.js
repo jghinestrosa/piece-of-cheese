@@ -41,14 +41,14 @@
 
   MazePainter.init(canvasMaze, cellSize, cellColor, frontierColor, wallColor, entryColor, exitColor, null, null);
 
-  Player.init(MazeGenerator.entry[1] * cellSize, MazeGenerator.entry[0] * cellSize, 'assets/img/rat-spritesheet.png', 3, 32);
+  Player.init(MazeGenerator.entry[1] * cellSize, MazeGenerator.entry[0] * cellSize, 'assets/img/rat-spritesheet.png', 3, 32, canvasPlayer.width, canvasPlayer.height);
 
   var paintMaze = MazePainter.startPainting.bind(MazePainter);
   var updatePlayer = Player.update.bind(Player);
   var paintPlayer = Player.paint.bind(Player);
 
-  window.addEventListener('keydown', Player.handleKeyDown.bind(Player));
-  window.addEventListener('keyup', Player.handleKeyUp.bind(Player));
+  document.addEventListener('keydown', Player.handleKeyDown.bind(Player));
+  document.addEventListener('keyup', Player.handleKeyUp.bind(Player));
 
   loop();
   

@@ -16,7 +16,7 @@ var Player = (function() {
   var isKeyDown = false;
 
   return {
-    init: function(x, y, assetURL, numberOfFrames, frameSize) {
+    init: function(x, y, assetURL, numberOfFrames, frameSize, canvasWidth, canvasHeight) {
       this.x = x;
       this.y = y;
       asset.onload = function() {
@@ -28,9 +28,20 @@ var Player = (function() {
       this.frameSize = frameSize;
 
       currentDirection = this.DirectionEnum.E;
+
+      this.v = 1;
+      this.t = 1;
+
+      this.canvasWidth = canvasWidth;
+      this.canvasHeight = canvasHeight;
+
     },
 
     update: function() {
+
+      if (isKeyDown) {
+        this.move();
+      }
 
       if (tickCount > ticksPerFrame) {
         tickCount = 0;
@@ -52,8 +63,8 @@ var Player = (function() {
     },
 
     paint: function(ctx) {
-      ctx.clearRect(this.x, this.y, this.frameSize, this.frameSize);
-      //ctx.drawImage(asset, 0, frameRow, this.frameSize, this.frameSize, this.x, this.y, this.frameSize, this.frameSize);
+      //ctx.clearRect(this.x, this.y, this.frameSize, this.frameSize);
+      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
       ctx.drawImage(asset, frame * this.frameSize, frameRow, this.frameSize, this.frameSize, this.x, this.y, this.frameSize, this.frameSize);
 
       //ctx.drawImage(asset, frame * this.frameSize, 0, this.frameSize, this.frameSize, this.x, this.y, this.frameSize, this.frameSize);
@@ -72,6 +83,7 @@ var Player = (function() {
     },
 
     handleKeyDown: function(evt) {
+      console.log('keydown');
       switch (evt.keyCode) {
         case 37:
           this.changeDirection(this.DirectionEnum.W);
@@ -93,7 +105,23 @@ var Player = (function() {
     },
 
     handleKeyUp: function(evt) {
+      console.log('keyup');
       isKeyDown = false;
+    },
+
+    move: function() {
+      if (currentDirection === this.DirectionEnum.N) {
+        this.y = this.y - this.v * this.t;
+      }
+      else if (currentDirection === this.DirectionEnum.E) {
+        this.x = this.x + this.v * this.t;
+      }
+      else if (currentDirection === this.DirectionEnum.S) {
+        this.y = this.y + this.v * this.t;
+      }
+      else if (currentDirection === this.DirectionEnum.W) {
+        this.x = this.x - this.v * this.t;
+      }
     }
   };
 
