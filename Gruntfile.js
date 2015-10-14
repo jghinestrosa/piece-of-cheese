@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     copy: {
       dist: {
         files: [
-          {expand: true, src: ['*.html', 'scripts/*', 'styles/*'], dest: 'dist/'}
+          {expand: true, src: ['*.html', 'scripts/*', 'styles/*', 'assets/**'], dest: 'dist/'}
         ]
       }
     },
