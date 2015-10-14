@@ -18,6 +18,20 @@ var Player = (function() {
   var previousX;
   var previousY;
 
+  var pressedKeys = [];
+  var availableKeys = [];
+
+  var KeysEnum = {
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40
+  };
+
+  Object.keys(KeysEnum).forEach(function(key) {
+    availableKeys.push(KeysEnum[key]);
+  });
+
   return {
     init: function(x, y, assetURL, numberOfFrames, frameSize, canvasWidth, canvasHeight) {
       this.x = x;
@@ -89,30 +103,69 @@ var Player = (function() {
     },
 
     handleKeyDown: function(evt) {
-      //console.log('keydown');
-      switch (evt.keyCode) {
-        case 37:
-          this.changeDirection(this.DirectionEnum.W);
-          isKeyDown = true;
-          break;
-        case 38:
-          this.changeDirection(this.DirectionEnum.N);
-          isKeyDown = true;
-          break;
-        case 39:
-          this.changeDirection(this.DirectionEnum.E);
-          isKeyDown = true;
-          break;
-        case 40:
-          this.changeDirection(this.DirectionEnum.S);
-          isKeyDown = true;
-          break;
+
+      if (availableKeys.indexOf(evt.keyCode) !== -1) {
+        this.pressKey(evt.keyCode);
       }
     },
 
+    pressKey: function(key) {
+      var direction;
+
+      switch (key) {
+        case KeysEnum.LEFT:
+          direction = this.DirectionEnum.W;
+          break;
+        case KeysEnum.UP:
+          direction = this.DirectionEnum.N;
+          break;
+        case KeysEnum.RIGHT:
+          direction = this.DirectionEnum.E;
+          break;
+        case KeysEnum.DOWN:
+          direction = this.DirectionEnum.S;
+          break;
+      }
+
+      this.changeDirection(direction);
+
+      if (pressedKeys.indexOf(key) === -1) {
+        pressedKeys.push(key);
+      }
+
+      isKeyDown = true;
+    },
+
     handleKeyUp: function(evt) {
-      //console.log('keyup');
-      isKeyDown = false;
+      this.releaseKey(evt.keyCode);
+    },
+
+    releaseKey: function(key) {
+      
+      if (pressedKeys.indexOf(key) !== -1) {
+        pressedKeys.splice(pressedKeys.indexOf(key), 1);
+      }
+
+      if (pressedKeys.length > 0) {
+        switch (pressedKeys[pressedKeys.length - 1]) {
+          case KeysEnum.LEFT:
+            this.changeDirection(this.DirectionEnum.W);
+            break;
+          case KeysEnum.UP:
+            this.changeDirection(this.DirectionEnum.N);
+            break;
+          case KeysEnum.RIGHT:
+            this.changeDirection(this.DirectionEnum.E);
+            break;
+          case KeysEnum.DOWN:
+            this.changeDirection(this.DirectionEnum.S);
+            break;
+        }
+      }
+      else {
+        isKeyDown = false;
+      }
+
     },
 
     move: function() {
