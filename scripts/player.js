@@ -15,6 +15,9 @@ var Player = (function() {
 
   var isKeyDown = false;
 
+  var previousX;
+  var previousY;
+
   return {
     init: function(x, y, assetURL, numberOfFrames, frameSize, canvasWidth, canvasHeight) {
       this.x = x;
@@ -27,14 +30,13 @@ var Player = (function() {
       this.numberOfFrames = numberOfFrames;
       this.frameSize = frameSize;
 
-      currentDirection = this.DirectionEnum.E;
+      this.changeDirection(this.DirectionEnum.E);
 
       this.v = 1;
       this.t = 1;
 
       this.canvasWidth = canvasWidth;
       this.canvasHeight = canvasHeight;
-
     },
 
     update: function() {
@@ -75,6 +77,10 @@ var Player = (function() {
       frameRow = currentDirection * this.frameSize;
     },
 
+    getCurrentDirection: function() {
+      return currentDirection;
+    },
+
     DirectionEnum: {
       N: 0,
       E: 1,
@@ -83,7 +89,7 @@ var Player = (function() {
     },
 
     handleKeyDown: function(evt) {
-      console.log('keydown');
+      //console.log('keydown');
       switch (evt.keyCode) {
         case 37:
           this.changeDirection(this.DirectionEnum.W);
@@ -105,11 +111,14 @@ var Player = (function() {
     },
 
     handleKeyUp: function(evt) {
-      console.log('keyup');
+      //console.log('keyup');
       isKeyDown = false;
     },
 
     move: function() {
+      previousX = this.x;
+      previousY = this.y;
+
       if (currentDirection === this.DirectionEnum.N) {
         this.y = this.y - this.v * this.t;
       }
@@ -122,7 +131,13 @@ var Player = (function() {
       else if (currentDirection === this.DirectionEnum.W) {
         this.x = this.x - this.v * this.t;
       }
+    },
+
+    onCollision: function() {
+      this.x = previousX;
+      this.y = previousY;
     }
+
   };
 
 }());
