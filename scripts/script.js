@@ -12,7 +12,8 @@
   var cellSize = 40;
   var cellColor = '#fff';
   var frontierColor = '#f00';
-  var wallColor = '#000';
+  var wallColor = '#5D3E33';
+  var wallWidth = 5;
   var entryColor = '#0f0';
   var exitColor = '#0f0';
 
@@ -73,13 +74,12 @@
     return Math.floor(coord / MazeGenerator.cellSize);
   }
 
-
   MazeGenerator.init(canvasMaze.width, canvasMaze.height, cellSize);
   MazeGenerator.generate();
   MazeGenerator.selectEntry();
   MazeGenerator.selectExit();
 
-  MazePainter.init(canvasMaze, cellSize, cellColor, frontierColor, wallColor, entryColor, exitColor, null, null);
+  MazePainter.init(canvasMaze, cellSize, cellColor, frontierColor, wallWidth, wallColor, entryColor, exitColor, 'assets/img/tile.png');
 
   currentCell = [MazeGenerator.entry[0], MazeGenerator.entry[1]];
 

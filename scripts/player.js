@@ -36,9 +36,6 @@ var Player = (function() {
     init: function(x, y, assetURL, numberOfFrames, frameSize, canvasWidth, canvasHeight) {
       this.x = x;
       this.y = y;
-      asset.onload = function() {
-        console.log('loaded');
-      };
       asset.src = assetURL;
 
       this.numberOfFrames = numberOfFrames;

@@ -6,6 +6,7 @@ var MazePainter = (function(window, MazeGenerator) {
 
   var paintingMaze = false;
   var mazePainted = false;
+  var tilesLoaded = false;
 
   var mazePaintedCallbacks = [];
 
@@ -15,9 +16,11 @@ var MazePainter = (function(window, MazeGenerator) {
     });
   }
 
+  var cellTile = new Image();
+
   var mazePainter = {
     
-    init: function(canvas, cellSize, cellColor, frontierColor, wallColor, entryColor, exitColor) {
+    init: function(canvas, cellSize, cellColor, frontierColor, wallWidth, wallColor, entryColor, exitColor, cellTileURL) {
       this.canvas = canvas;
       this.ctx = canvas.getContext('2d');
 
@@ -26,6 +29,7 @@ var MazePainter = (function(window, MazeGenerator) {
       this.cellColor = cellColor;
       this.frontierColor = frontierColor;
       this.wallColor = wallColor;
+      this.wallWidth = wallWidth;
 
       this.entryColor = entryColor;
       this.exitColor = exitColor;
@@ -36,33 +40,40 @@ var MazePainter = (function(window, MazeGenerator) {
       mazePaintedCallbacks = [];
 
       this.clear(this.ctx, 0, 0, canvas.width, canvas.height);
+
+      cellTile.onload = function() {
+        tilesLoaded = true;
+      };
+
+      cellTile.src = cellTileURL;
+
     },
 
     isMazePainted: function() {
       return mazePainted;
     },
 
-    drawLine: function(ctx, xFrom, yFrom, xTo, yTo, color) {
+    drawLine: function(ctx, xFrom, yFrom, xTo, yTo, color, width) {
       ctx.strokeStyle = color;
+      ctx.lineWidth = width;
       ctx.beginPath();
       ctx.moveTo(xFrom, yFrom);
       ctx.lineTo(xTo, yTo);
       ctx.stroke();
     },
 
-    drawCell: function(ctx, x, y, width, height, color) {
-      ctx.fillStyle = color;
-      ctx.fillRect(x, y, width, height);
+    drawCell: function(ctx, x, y, width, height, color, tile) {
+      ctx.drawImage(tile, 0, 0, this.cellSize, this.cellSize, x, y, this.cellSize, this.cellSize);
     },
 
     startPainting: function() {
       this.paintMazeGeneration();
-      this.paintEntryExit();
+      //this.paintEntryExit();
     },
 
     paintMazeGeneration: function() {
 
-      if (mazePainted) {
+      if (mazePainted || !tilesLoaded) {
         return;
       }
 
@@ -92,7 +103,7 @@ var MazePainter = (function(window, MazeGenerator) {
         var yCellToPaint = this.getY(cellInfo.cellToPaint[0]);
 
         // Paint a cell from the maze
-        this.drawCell(this.ctx, xCellToPaint, yCellToPaint, this.cellSize, this.cellSize, this.cellColor);
+        this.drawCell(this.ctx, xCellToPaint, yCellToPaint, this.cellSize, this.cellSize, this.cellColor, cellTile);
 
         // Paint walls surrounding this cell
         if (cellInfo.walls) {
@@ -106,22 +117,22 @@ var MazePainter = (function(window, MazeGenerator) {
 
         // Up
         if (cell[0] < i) {
-          this.drawLine(this.ctx, x, y, x + this.cellSize, y, this.wallColor);
+          this.drawLine(this.ctx, x, y, x + this.cellSize, y, this.wallColor, this.wallWidth);
         }
 
         // Down
         if (cell[0] > i) {
-          this.drawLine(this.ctx, x, y + this.cellSize, x + this.cellSize, y + this.cellSize, this.wallColor);
+          this.drawLine(this.ctx, x, y + this.cellSize, x + this.cellSize, y + this.cellSize, this.wallColor, this.wallWidth);
         }
 
         // Left
         if (cell[1] < j) {
-          this.drawLine(this.ctx, x, y, x, y + this.cellSize, this.wallColor);
+          this.drawLine(this.ctx, x, y, x, y + this.cellSize, this.wallColor, this.wallWidth);
         }
 
         // Right
         if (cell[1] > j) {
-          this.drawLine(this.ctx, x + this.cellSize, y, x + this.cellSize, y + this.cellSize, this.wallColor);
+          this.drawLine(this.ctx, x + this.cellSize, y, x + this.cellSize, y + this.cellSize, this.wallColor, this.wallWidth);
         }
 
       }.bind(this));
