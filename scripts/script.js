@@ -47,6 +47,9 @@
   var updatePlayer = Player.update.bind(Player);
   var paintPlayer = Player.paint.bind(Player);
 
+  window.addEventListener('keydown', Player.handleKeyDown.bind(Player));
+  window.addEventListener('keyup', Player.handleKeyUp.bind(Player));
+
   loop();
   
 
