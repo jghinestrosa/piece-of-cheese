@@ -34,6 +34,13 @@
   function checkCollisions() {
     var cell = null;
 
+    // Collisions outer walls
+    if (Player.x < 0 || Player.x + Player.frameSize >= canvasMaze.width || Player.y < 0 || Player.y + Player.frameSize >= canvasMaze.height) {
+      Player.onCollision();
+      return;
+    }
+
+    // Collisions inner walls
     if (Player.getCurrentDirection() === Player.DirectionEnum.N) {
       cell = [getPositionFromCoordinate(Player.y), getPositionFromCoordinate(Player.x + (Player.frameSize / 2))];
     }
