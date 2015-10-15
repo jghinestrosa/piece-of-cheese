@@ -20,6 +20,9 @@
   // Player position in maze
   var currentCell = null;
 
+  // Maze is solved
+  var solved = false;
+
   var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
   window.requestAnimationFrame = requestAnimationFrame;
 
@@ -63,6 +66,36 @@
     else {
       currentCell = cell;
     }
+
+    // If the cell is the exit
+    if (MazeGenerator.areTheSameCell(currentCell, MazeGenerator.exit)) {
+      if (Player.getCurrentDirection() === Player.DirectionEnum.N) {
+        if (Player.y >= Cheese.y + Cheese.assetSize + Cheese.assetSize / 2) {
+          solved = true;
+        }
+      }
+      else if (Player.getCurrentDirection() === Player.DirectionEnum.E) {
+        if (Player.x + Player.frameSize >= Cheese.x + Cheese.assetSize / 2) {
+          solved = true;
+        }
+      }
+      else if (Player.getCurrentDirection() === Player.DirectionEnum.S) {
+        if (Player.y + Player.frameSize >= Cheese.y + Cheese.assetSize / 2) {
+          solved = true;
+        }
+      }
+      else if (Player.getCurrentDirection() === Player.DirectionEnum.W) {
+        if (Player.x >= Cheese.x + Cheese.assetSize + Cheese.assetSize / 2) {
+          solved = true;
+        }
+      }
+
+      if (solved) {
+        newGame();
+        solved = false;
+      }
+
+    }
   }
 
   function loop() {
@@ -76,18 +109,18 @@
     return Math.floor(coord / MazeGenerator.cellSize);
   }
 
-  MazeGenerator.init(canvasMaze.width, canvasMaze.height, cellSize);
-  MazeGenerator.generate();
-  MazeGenerator.selectEntry();
-  MazeGenerator.selectExit();
+  function newGame() {
+    MazeGenerator.init(canvasMaze.width, canvasMaze.height, cellSize);
+    MazeGenerator.generate();
+    MazeGenerator.selectEntry();
+    MazeGenerator.selectExit();
+    MazePainter.init(canvasMaze, cellSize, cellColor, frontierColor, wallWidth, wallColor, entryColor, exitColor, 'assets/img/tile.png');
+    currentCell = [MazeGenerator.entry[0], MazeGenerator.entry[1]];
+    Player.init(MazeGenerator.entry[1] * cellSize, MazeGenerator.entry[0] * cellSize, 'assets/img/rat-spritesheet.png', 3, 32, canvasPlayer.width, canvasPlayer.height, MazeGenerator.getMaze());
+    Cheese.setPosition(MazeGenerator.exit[1] * cellSize, MazeGenerator.exit[0] * cellSize);
+  }
 
-  MazePainter.init(canvasMaze, cellSize, cellColor, frontierColor, wallWidth, wallColor, entryColor, exitColor, 'assets/img/tile.png');
-
-  currentCell = [MazeGenerator.entry[0], MazeGenerator.entry[1]];
-
-  Player.init(MazeGenerator.entry[1] * cellSize, MazeGenerator.entry[0] * cellSize, 'assets/img/rat-spritesheet.png', 3, 32, canvasPlayer.width, canvasPlayer.height, MazeGenerator.getMaze());
-
-  Cheese.setPosition(MazeGenerator.exit[1] * cellSize, MazeGenerator.exit[0] * cellSize);
+  newGame();
 
   var paintMaze = MazePainter.startPainting.bind(MazePainter);
   var updatePlayer = Player.update.bind(Player);
@@ -98,7 +131,5 @@
   document.addEventListener('keyup', Player.handleKeyUp.bind(Player));
 
   loop();
-  
-
 
 }(window, document, MazeGenerator, MazePainter, Player, Cheese));

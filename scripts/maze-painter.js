@@ -172,6 +172,10 @@ var MazePainter = (function(window, MazeGenerator) {
       ctx.clearRect(x, y, width, height);
     },
 
+    clearMaze: function() {
+      this.clear(this.ctx, 0, 0, this.canvas.width, this.canvas.height);
+    },
+
     getX: function(j) {
       return j * this.cellSize;
     },
