@@ -1,4 +1,5 @@
 var Player = (function() {
+  'use strict';
 
   var x;
   var y;
@@ -77,7 +78,6 @@ var Player = (function() {
 
     paint: function(ctx) {
       //ctx.clearRect(this.x, this.y, this.frameSize, this.frameSize);
-      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
       ctx.drawImage(asset, frame * this.frameSize, frameRow, this.frameSize, this.frameSize, this.x, this.y, this.frameSize, this.frameSize);
 
       //ctx.drawImage(asset, frame * this.frameSize, 0, this.frameSize, this.frameSize, this.x, this.y, this.frameSize, this.frameSize);

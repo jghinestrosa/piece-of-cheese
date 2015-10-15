@@ -1,4 +1,4 @@
-(function(window, document, MazeGenerator, MazePainter, Player) {
+(function(window, document, MazeGenerator, MazePainter, Player, Cheese) {
   'use strict';
 
   // DOM Elements
@@ -25,6 +25,8 @@
 
   function paint() {
     paintMaze();
+    ctxPlayer.clearRect(0, 0, canvasPlayer.width, canvasPlayer.height);
+    paintCheese(ctxPlayer);
     paintPlayer(ctxPlayer);
   }
 
@@ -85,9 +87,12 @@
 
   Player.init(MazeGenerator.entry[1] * cellSize, MazeGenerator.entry[0] * cellSize, 'assets/img/rat-spritesheet.png', 3, 32, canvasPlayer.width, canvasPlayer.height, MazeGenerator.getMaze());
 
+  Cheese.setPosition(MazeGenerator.exit[1] * cellSize, MazeGenerator.exit[0] * cellSize);
+
   var paintMaze = MazePainter.startPainting.bind(MazePainter);
   var updatePlayer = Player.update.bind(Player);
   var paintPlayer = Player.paint.bind(Player);
+  var paintCheese = Cheese.paint.bind(Cheese);
 
   document.addEventListener('keydown', Player.handleKeyDown.bind(Player));
   document.addEventListener('keyup', Player.handleKeyUp.bind(Player));
@@ -96,4 +101,4 @@
   
 
 
-}(window, document, MazeGenerator, MazePainter, Player));
+}(window, document, MazeGenerator, MazePainter, Player, Cheese));
