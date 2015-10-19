@@ -100,8 +100,8 @@ var Player = (function() {
     },
 
     handleKeyDown: function(evt) {
-
       if (availableKeys.indexOf(evt.keyCode) !== -1) {
+        evt.preventDefault();
         this.pressKey(evt.keyCode);
       }
     },
