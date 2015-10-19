@@ -6,14 +6,21 @@ html, body {
 }
 
 body {
-  background: antiquewhite;
+  background: #faebd7;
+}
+
+.title {
+  text-align: center;
+  font-family: 'Bangers', cursive;
+  font-size: 3em;
+  color: #ffd700;
+  text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 4px 4px 0 black;
 }
 
 #canvas-wrapper {
   width: 800px;
   height: 400px;
   position: relative;
-  top: 10%;
   margin: 0 auto;
 }
 
