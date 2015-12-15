@@ -4,7 +4,7 @@
   // DOM Elements
   var canvasMaze = document.getElementById('maze');
   var canvasPlayer = document.getElementById('player');
-  var bGenerate = document.getElementById('bGenerate');
+  var bAudio = document.getElementById('audio-icon');
 
   var ctxPlayer = canvasPlayer.getContext('2d');
 
@@ -120,6 +120,25 @@
     Cheese.setPosition(MazeGenerator.exit[1] * cellSize, MazeGenerator.exit[0] * cellSize);
   }
 
+  function initializeAudio() {
+    var audioElement = new AudioElement('assets/audio/poc.mp3');
+    document.body.appendChild(audioElement);
+    audioElement.play();
+
+    bAudio.addEventListener('click', function() {
+      if (audioElement.volume === 1) {
+        audioElement.volume = 0;
+        bAudio.classList.add('fa-volume-off');
+        bAudio.classList.remove('fa-volume-up');
+      }
+      else {
+        audioElement.volume = 1;
+        bAudio.classList.add('fa-volume-up');
+        bAudio.classList.remove('fa-volume-off');
+      }
+    });
+  }
+
   newGame();
 
   var paintMaze = MazePainter.startPainting.bind(MazePainter);
@@ -130,9 +149,7 @@
   document.addEventListener('keydown', Player.handleKeyDown.bind(Player));
   document.addEventListener('keyup', Player.handleKeyUp.bind(Player));
 
-  var audioElement = new AudioElement('assets/audio/poc.mp3');
-  document.body.appendChild(audioElement);
-  audioElement.play();
+  initializeAudio();
 
   loop();
 

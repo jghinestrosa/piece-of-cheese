@@ -34,3 +34,20 @@ canvas {
   border: 2px solid black;
   background: black;
 }
+
+#audio-controller {
+  display: block;
+  width: 800px;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+#audio-icon {
+  position: absolute;
+  right: 0;
+}
+
+#audio-icon:hover {
+  cursor: pointer;
+}
