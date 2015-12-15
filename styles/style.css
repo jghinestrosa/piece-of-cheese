@@ -15,6 +15,8 @@ body {
   font-size: 3em;
   color: #ffd700;
   text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 4px 4px 0 black;
+  margin: 0;
+  padding: 25px;
 }
 
 #canvas-wrapper {
@@ -50,4 +52,18 @@ canvas {
 
 #audio-icon:hover {
   cursor: pointer;
+}
+
+#credits {
+  width: 800px;
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+#credits p {
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 0.9em;
 }

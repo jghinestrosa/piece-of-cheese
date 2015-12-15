@@ -26,6 +26,16 @@ It was also a great opportunity to make the graphics. I love drawing and I'm a p
 
 I'm aware there are some details in the implementation that are wrong but, they will stay that way because it's just for this game. The more I was adding game elements to the code, the more I was thinking about developing a complete engine in order to reuse it for future games. And I probably will.
 
+## External resources
+
+I have used the font [Bangers](https://www.google.com/fonts/specimen/Bangers) from Google Font and Font-Awesome in order to have a volume icon to enable and disable the music.
+
+Thanks to their respective authors! Both resources helped me giving some style to the game.
+
+## Music
+
+The silver lining of having a friend who is a musician and a programmer is that you can ask him for any favor like... composing the soundtrack for your game. **Thank you** [Antonio](https://github.com/antoniovm)!
+
 # License
 
 MIT
