@@ -130,6 +130,10 @@
   document.addEventListener('keydown', Player.handleKeyDown.bind(Player));
   document.addEventListener('keyup', Player.handleKeyUp.bind(Player));
 
+  var audioElement = new AudioElement('assets/audio/poc.mp3');
+  document.body.appendChild(audioElement);
+  audioElement.play();
+
   loop();
 
-}(window, document, MazeGenerator, MazePainter, Player, Cheese));
+}(window, document, MazeGenerator, MazePainter, Player, Cheese, AudioElement));
